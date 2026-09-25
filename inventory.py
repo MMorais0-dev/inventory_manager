@@ -29,29 +29,34 @@ def show_inventory():
     else:
         print('\n---Current Inventory ---')
         for product in inventory:
-            print(f"- {product['name']} | QTY: {product['quantity']} | Price: ${product['price']}")
+            print(f"- {product['name']} | QTY: {product['quantity']} | Price: ${product['price']: .2f} ")
         print('------------------------ \n')
 
 
 def add_product():
     name = input('Product name:')
-    quantity = int(input('Quantity:'))
-    price = float(input('Price: $'))
+    try:
+        quantity = int(input('Quantity:'))
+        price = float(input('Price: $'))
+    except ValueError:
+        print('Quantity and price must be numbers.')
+        return
     product = {'name': name, 'quantity': quantity, 'price': price}
     inventory.append(product)
+    save_to_file
     print(f"{name} added!")
 
 
 def remove_product():
     name = input('Enter product name to remove:')
     for product in inventory:
-        if product['name'] == name:
+        if product['name'].lower() == name.lower():
             inventory.remove(product)
+            save_to_file
             print(f'{name} removed!')
             return
     print('product not found.')
 
-load_from_file()
 def main_menu():
     while True:
         print('\n--- Inventory Menu ---')
@@ -70,5 +75,8 @@ def main_menu():
             save_to_file()
             print('Goodbye!')
             break
-            
+        else:
+            print('Invalid choice, please enter 1-4.')
+
+load_from_file()
 main_menu()
