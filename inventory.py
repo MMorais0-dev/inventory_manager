@@ -29,7 +29,7 @@ def show_inventory():
     else:
         print('\n---Current Inventory ---')
         for product in inventory:
-            print(f"- {product['name']} | QTY: {product['quantity']} | Price: ${product['price']: .2f} ")
+            print(f"- {product['name']} | QTY: {product['quantity']} | Price: ${product['price']:.2f} ")
         print('------------------------ \n')
 
 
@@ -41,9 +41,17 @@ def add_product():
     except ValueError:
         print('Quantity and price must be numbers.')
         return
-    product = {'name': name, 'quantity': quantity, 'price': price}
-    inventory.append(product)
-    save_to_file
+    if not name or quantity <0 or price <0:
+        print('Name is required and numbers cannot be negative.')
+        return
+    for product in inventory:
+        if product['name'].lower() == name.lower():
+            product['quantity'] += quantity
+            save_to_file()
+            print(f"Updated {name}: quantity to {product['quantity']}")
+            return
+    inventory.append({'name': name, 'quantity': quantity, 'price': price})
+    save_to_file()
     print(f"{name} added!")
 
 
@@ -52,7 +60,7 @@ def remove_product():
     for product in inventory:
         if product['name'].lower() == name.lower():
             inventory.remove(product)
-            save_to_file
+            save_to_file()
             print(f'{name} removed!')
             return
     print('product not found.')
