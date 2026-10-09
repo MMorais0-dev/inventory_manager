@@ -34,7 +34,7 @@ def show_inventory():
 
 
 def add_product():
-    name = input('Product name:')
+    name = input('Product name:').strip()
     try:
         quantity = int(input('Quantity:'))
         price = float(input('Price: $'))
