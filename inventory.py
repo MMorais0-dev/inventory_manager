@@ -4,9 +4,9 @@ inventory = []
 def save_to_file():
     with open('inventory.csv', 'w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(['name', 'quantity', 'price'])
+        writer.writerow(['sku', 'name', 'quantity', 'price'])
         for product in inventory:
-            writer.writerow([product['name'], product['quantity'], product['price']])
+            writer.writerow([product['sku'], product['name'], product['quantity'], product['price']])
     print('Inventory saved!')
 
 def load_from_file():
@@ -15,6 +15,7 @@ def load_from_file():
             reader = csv.DictReader(file)
             for row in reader:
                 inventory.append({
+                    'sku': row['sku'],
                     'name': row['name'],
                     'quantity': int(row['quantity']),
                     'price': float(row['price'])
@@ -29,11 +30,15 @@ def show_inventory():
     else:
         print('\n---Current Inventory ---')
         for product in inventory:
-            print(f"- {product['name']} | QTY: {product['quantity']} | Price: ${product['price']:.2f} ")
+            print(f"- {product['sku']} | {product['name']} | QTY: {product['quantity']} | Price: ${product['price']:.2f} ")
         print('------------------------ \n')
 
 
 def add_product():
+    sku= input('SKU:').strip()
+    if not sku.isdigit():
+        print('SKU must be numbers only.')
+        return
     name = input('Product name:').strip()
     try:
         quantity = int(input('Quantity:'))
@@ -45,23 +50,23 @@ def add_product():
         print('Name is required and numbers cannot be negative.')
         return
     for product in inventory:
-        if product['name'].lower() == name.lower():
+        if product['sku'] == sku:
             product['quantity'] += quantity
             save_to_file()
             print(f"Updated {name}: quantity to {product['quantity']}")
             return
-    inventory.append({'name': name, 'quantity': quantity, 'price': price})
+    inventory.append({'sku': sku, 'name': name, 'quantity': quantity, 'price': price})
     save_to_file()
     print(f"{name} added!")
 
 
 def remove_product():
-    name = input('Enter product name to remove:')
+    sku = input('Enter SKU to remove:').strip()
     for product in inventory:
-        if product['name'].lower() == name.lower():
+        if product['sku'] == sku:
             inventory.remove(product)
             save_to_file()
-            print(f'{name} removed!')
+            print(f'{sku} removed!')
             return
     print('product not found.')
 
