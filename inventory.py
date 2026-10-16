@@ -30,7 +30,7 @@ def show_inventory():
     else:
         print('\n---Current Inventory ---')
         for product in inventory:
-            print(f"- {product['name']} | QTY: {product['quantity']} | Price: ${product['price']:.2f} ")
+            print(f"- {product['sku']} | {product['name']} | QTY: {product['quantity']} | Price: ${product['price']:.2f} ")
         print('------------------------ \n')
 
 
@@ -61,12 +61,12 @@ def add_product():
 
 
 def remove_product():
-    name = input('Enter product name to remove:')
+    sku = input('Enter SKU to remove:').strip()
     for product in inventory:
-        if product['name'].lower() == name.lower():
+        if product['sku'] == sku:
             inventory.remove(product)
             save_to_file()
-            print(f'{name} removed!')
+            print(f'{sku} removed!')
             return
     print('product not found.')
 
