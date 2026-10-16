@@ -4,11 +4,11 @@ A Python command-line app for managing product inventory. Built as a personal pr
 
 ## Features
 
-- Add products with name, quantity, and price
+- Add products with SKU, name, quantity, and price
 - Adding an existing product increases its quantity instead of creating a duplicate
 - Rejects invalid input (empty names, letters in number fields, negative values)
 - View the full inventory with formatted prices
-- Remove products by name (not case-sensitive)
+- Remove products by SKU
 - Saves to a CSV file after every change, so data is kept between sessions
 
 ## How to Run
@@ -37,6 +37,5 @@ I work in Order Fulfillment at Home Depot and see every day how much accurate in
 
 ## Planned
 
-- SKU numbers for each product
 - Low-stock report
 - A Java Spring Boot version with a PostgreSQL database
